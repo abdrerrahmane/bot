@@ -1,6 +1,7 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
+# ضع التوكن هنا
 TOKEN = "8436188294:AAE1By3nZeth0pUHraqzc-yZ18UUrUzwa4E"
 
 # ---------------------------
@@ -21,7 +22,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "اختر أحد الأقسام 👇"
     )
 
-    # إذا جابها في Callback
     if update.callback_query:
         await update.callback_query.edit_message_text(text, reply_markup=reply_markup)
     else:
@@ -34,12 +34,10 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    # زر الرجوع
     back_button = InlineKeyboardMarkup(
         [[InlineKeyboardButton("⬅️ الرجوع للرئيسية", callback_data="start")]]
     )
 
-    # 📚 منصات التعليم
     if query.data == "learning":
         text = (
             "📚 **أفضل مواقع التعليم الآمنة:**\n\n"
@@ -50,7 +48,6 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         await query.edit_message_text(text, reply_markup=back_button)
 
-    # 🛠️ أدوات Cybersecurity
     elif query.data == "tools":
         text = (
             "🛠️ **روابط تنزيل أدوات Cybersecurity الآمنة:**\n\n"
@@ -61,7 +58,6 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         await query.edit_message_text(text, reply_markup=back_button)
 
-    # 🎥 فيديوهات
     elif query.data == "videos":
         text = (
             "🎥 **أفضل الفيديوهات لتعلم CyberSecurity:**\n\n"
@@ -72,7 +68,6 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         await query.edit_message_text(text, reply_markup=back_button)
 
-    # 📌 Roadmap
     elif query.data == "roadmap":
         text = (
             "📌 **Roadmap CyberSecurity (مبتدئ → محترف):**\n\n"
@@ -88,14 +83,14 @@ async def menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         await query.edit_message_text(text, reply_markup=back_button)
 
-    # زر الرجوع للرئيسية
     elif query.data == "start":
         await start(update, context)
 
 # ---------------------------
 # RUN BOT
 # ---------------------------
-app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CallbackQueryHandler(menu))
-app.run_polling()
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CallbackQueryHandler(menu))
+    app.run_polling()
